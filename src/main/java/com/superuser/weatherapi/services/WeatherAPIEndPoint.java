@@ -26,10 +26,14 @@ public class WeatherAPIEndPoint {
     private double longitude;
     private double latitude;
     private String weather;
-    private String apiKey = "05421eb90beaae51378b287142ff8554";
+    //we can get this pi key from the openweatherpi site where we have a account and find the key under profile
+//    private String apiKey = "05421eb90beaae51378b287142ff8554";
+
+    private String apiKey = "1208cbf75e71d5103e74ecc8b5453d6b";
 
     @RequestMapping("/weather/name/{place}")
     public String responseName(@PathVariable("place") final String place) {
+        //the below api call is explained in this site(used geocoding api) https://openweathermap.org/api/geocoding-api
         String request = getResponse(
                 "http://api.openweathermap.org/data/2.5/weather?q=" + place + "&units=metric&appid=" + apiKey);
         if (!(request.startsWith("Error"))) {
@@ -79,6 +83,7 @@ public class WeatherAPIEndPoint {
 
     @RequestMapping("/weather/pin/{pinCode}")
     public String responsePin(@PathVariable("pinCode") final String pincode) {
+        //this request will return an apiresponse and store it as a string
         String request = getResponse(
                 "http://api.openweathermap.org/data/2.5/weather?zip=" + pincode + ",in&units=metric&appid=" + apiKey);
         if (!(request.startsWith("Error"))) {
@@ -179,7 +184,12 @@ public class WeatherAPIEndPoint {
     private void updateData(String request) {
         isValid = false;
         error = "";
-        JSONObject ob = getDataObject(request);
+        /*The below line JSONObject ob = getDataObject(request); in your code suggests that the getDataObject method is used
+        to convert a JSON-formatted string (in this case, the request string) into a JSONObject.
+        You can achieve this conversion using a JSON parsing library,
+        such as the one provided by the org.json package in Java.  */
+
+        JSONObject ob = getDataObject(request);  //this methof is implmented below
         System.out.println(isValid);
         if (isValid) {
             JSONObject main = (JSONObject) ob.get("main");
